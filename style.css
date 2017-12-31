@@ -11,6 +11,7 @@ td button {
 button {
     height: 32px;
     width: 32px;
+    color:#000;
 }
 
 td {
@@ -20,7 +21,7 @@ td {
 .well {
     margin-left:20%;
     margin-right:20%;
-    margin-top:100px;
+    margin-top:50px;
 }
 
 table {
@@ -28,4 +29,11 @@ table {
     border-width: 4px;
     border-style: solid;
     border-color: #000;
+}
+.title{
+	color:#fff;
+}
+.new_game{
+    height:auto;
+    width:auto;
 }
