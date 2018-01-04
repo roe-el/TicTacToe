@@ -26,7 +26,7 @@ $(document).ready(function() {
             $(this).text(player1XO);
             count++;
             checkForWin();
-            if (win === false) {
+            if(win === false){
                 computerMove();
             }
         }
@@ -62,22 +62,23 @@ $(document).ready(function() {
             setTimeout(function() {
                 alert('Maybe next time human.');
                 $($btns).text('');
-                count = 0
+                count = 0;
                 win = false;
                 $('table').css("border-color", "green");
                 return;
             }, 500);
 
         } else if (count >= 5) {
-            alert('Tie');
+            setTimeout(function(){
+                alert('Tie');
+            $($btns).text('');
             count = 0;
             win = false;
-            $($btns).text('');
             $('table').css("border-color", "green");
             return;
-        }
+        }, 500);
     }
-
+}
     function computerMove() {
         function findRandom() {
             random = getRandomIntInclusive(8);
@@ -95,7 +96,7 @@ $(document).ready(function() {
                 addValue();
             }
         }
-        if (win === false) {
+        if (win === false && count<=4) {
 
             addValue();
             checkForWin();
