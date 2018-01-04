@@ -1,6 +1,6 @@
 $(document).ready(function() {
     'use strict';
-    console.log(player1XO+ " " + player2XO);
+    console.log(player1XO + " " + player2XO);
     var $btns = '.top-left-btn,.top-middle-btn,.top-right-btn,.middle-left-btn,.middle-middle-btn,.middle-right-btn,.bottom-left-btn,.bottom-middle-btn,.bottom-right-btn';
     var player1XO, player2XO, $topValues, $middleValues, $bottomValues, $leftValues, $middleVerticalValues, $rightValues, $acrossRight, $acrossLeft = null;
 
@@ -11,24 +11,27 @@ $(document).ready(function() {
     $('.new_game').on('click', function() {
         player1XO = 'X';
         player2XO = 'O';
-        $($btns).text('');
-    })
-    
-    $($btns).on('click', function() {
-        if (player1XO === null || player2XO === null) {
-            alert('Choose a mark!');
-            return;
-        }
-        $(this).text(player1XO);
-        
-
-        checkForWin();
-
-        if (win === false) {
-            computerMove();
-        }
+        count = 0;
         win = false;
-    })
+        $('table').css("border-color", "green");
+        $($btns).text('');
+    });
+
+    $($btns).on('click', function() {
+        if (player1XO === undefined || player2XO === undefined) {
+            alert('Push "New Game" to start!');
+
+        } else if ($(this)[0].textContent == "") {
+            $('table').css("border-color", "black");
+            $(this).text(player1XO);
+            count++;
+            checkForWin();
+            if (win === false) {
+                computerMove();
+            }
+        }
+
+    });
 
 
     function checkForWin() {
@@ -46,6 +49,10 @@ $(document).ready(function() {
             setTimeout(function() {
                 alert('Good job human :)');
                 $($btns).text('');
+                win = false;
+                count = 0;
+                $('table').css("border-color", "green");
+                return;
             }, 500);
 
             return;
@@ -55,32 +62,51 @@ $(document).ready(function() {
             setTimeout(function() {
                 alert('Maybe next time human.');
                 $($btns).text('');
+                count = 0
+                win = false;
+                $('table').css("border-color", "green");
+                return;
             }, 500);
 
+        } else if (count >= 5) {
+            alert('Tie');
+            count = 0;
+            win = false;
+            $($btns).text('');
+            $('table').css("border-color", "green");
             return;
         }
     }
 
     function computerMove() {
-        if (count < 5 && win === false) {
-            console.log('Count:' + count);
+        function findRandom() {
             random = getRandomIntInclusive(8);
-            if ($($values[random]).text() === '') {
+            return random;
+        }
+
+        function addValue() {
+            if ($($values[findRandom()]).text() == '') {
                 if (player1XO === 'O') {
                     $($values[random]).text('X');
-                } else $($values[random]).text('O');
-            } else { computerMove(); }
-            checkForWin();
-        } else {
-            alert('Tie');
-            count = 0;
-            $($btns).text('');
+                } else {
+                    $($values[random]).text('O');
+                }
+            } else {
+                addValue();
+            }
         }
-        return;
+        if (win === false) {
+
+            addValue();
+            checkForWin();
+
+
+        }
     }
 
     function getRandomIntInclusive(max) {
         max = Math.floor(max);
-        return Math.floor(Math.random() * (max)); //The maximum is inclusive and the minimum is inclusive 
+        return Math.floor(Math.random() * (max));
+        //The maximum is inclusive and the minimum is inclusive
     }
 });
